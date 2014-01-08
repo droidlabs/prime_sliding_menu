@@ -3,7 +3,7 @@ module PrimeSlidingMenu
     include ::MotionPrime::ScreenBaseMixin
 
     def self.new(menu, content, options = {})
-      screen = self.alloc.initWithTopViewController(nil)
+      screen = self.alloc.init
       screen.on_create(options.merge(navigation: false)) if screen.respond_to?(:on_create)
       screen.menu_controller = menu unless menu.nil?
       screen.content_controller = content unless content.nil?
@@ -13,15 +13,15 @@ module PrimeSlidingMenu
     end
 
     def show_sidebar
-      self.anchorTopViewToRightAnimated(false)
+      anchorTopViewTo ECRight
     end
 
     def hide_sidebar
-      self.resetTopViewAnimated(false)
+      self.resetTopView
     end
 
     def toggle_sidebar
-      if self.currentTopViewPosition == 2
+      if self.topViewHasFocus
         show_sidebar
       else
         hide_sidebar
