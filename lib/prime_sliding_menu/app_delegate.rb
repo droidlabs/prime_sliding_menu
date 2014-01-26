@@ -18,7 +18,15 @@ module PrimeSlidingMenu
         alias_method :open_content_screen!, :open_content_screen
         def open_content_screen(screen, options = {})
           if sidebar?
-            @sidebar_container.content_controller = screen
+            if options[:animated]
+              UIView.transitionWithView @sidebar_container,
+                      duration: 0.5,
+                       options: UIViewAnimationOptionTransitionFlipFromLeft,
+                    animations: proc { @sidebar_container.content_controller = screen },
+                    completion: nil
+            else
+              @sidebar_container.content_controller = screen
+            end
           else
             open_content_screen!(screen)
           end
