@@ -29,15 +29,16 @@ module PrimeSlidingMenu
     end
 
     def menu_controller=(c)
-      self.underLeftViewController = prepare_controller(c)
+      @menu_controller_ref = prepare_controller(c)
+      self.underLeftViewController = @menu_controller_ref
     end
 
     def content_controller=(c)
-      controller = prepare_controller(c)
-      if should_reinit_content?(controller)
-        self.topViewController = controller
+      @content_controller_ref = prepare_controller(c)
+      if should_reinit_content?(@content_controller_ref)
+        self.topViewController = @content_controller_ref
       else
-        content_controller.viewControllers = [controller]
+        content_controller.viewControllers = [@content_controller_ref]
       end
       hide_sidebar
     end
@@ -53,7 +54,7 @@ module PrimeSlidingMenu
     private
 
       def should_reinit_content?(new_controller)
-        content_controller.nil? ||
+        content_controller.blank? ||
         content_controller.is_a?(MotionPrime::TabBarController) ||
         new_controller.is_a?(MotionPrime::TabBarController)
       end
@@ -68,7 +69,7 @@ module PrimeSlidingMenu
           controller.navigation_controller = content_controller if controller.respond_to?(:navigation_controller)
           controller.send(:on_screen_load) if controller.respond_to?(:on_screen_load)
         end
-        controller
+        controller.strong_ref
       end
   end
 end
