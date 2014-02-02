@@ -1,6 +1,8 @@
 # PrimeSlidingMenu
 
-ECSlidingViewController 2 integration for MotionPrime.
+[ECSlidingViewController](https://github.com/ECSlidingViewController/ECSlidingViewController) integration for [MotionPrime](https://github.com/droidlabs/motion-prime).
+
+![iPhone and iPad Mini screenshots](http://github.com/ECSlidingViewController/ECSlidingViewController/wiki/readme-assets/readme-hero.png)
 
 ## Installation
 
@@ -11,10 +13,21 @@ Add this line to your application's Gemfile:
 And then execute:
 
     $ bundle
+    $ rake pod:install
 
-Or install it yourself as:
+## Usage
 
-    $ gem install prime_sliding_menu
+  class AppDelegate < Prime::BaseAppDelegate
+    def on_load(app, options)
+      open_screen :main, sidebar: true
+    end
+  end
+
+  class SidebarScreen < Prime::Screen
+    def render
+      # Add anything to menu
+    end
+  end
 
 
 ## Contributing
