@@ -7,7 +7,6 @@ module PrimeSlidingMenu
       screen.on_create(options.merge(navigation: false)) if screen.respond_to?(:on_create)
       screen.menu_controller = menu unless menu.nil?
       screen.content_controller = content unless content.nil?
-      screen.content_controller.view.addGestureRecognizer screen.panGesture
       screen.setAnchorRightRevealAmount 260.0
       screen
     end
@@ -37,6 +36,8 @@ module PrimeSlidingMenu
       @content_controller_ref = prepare_controller(c)
       if should_reinit_content?(@content_controller_ref)
         self.topViewController = @content_controller_ref
+        @content_controller_ref.view.addGestureRecognizer self.panGesture
+        @content_controller_ref.view.addGestureRecognizer self.resetTapGesture
       else
         content_controller.viewControllers = [@content_controller_ref]
       end
