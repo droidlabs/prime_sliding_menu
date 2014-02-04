@@ -20,11 +20,15 @@ module PrimeSlidingMenu
     end
 
     def toggle_sidebar
-      if self.currentTopViewPosition == 2
+      if !sidebar_visible?
         show_sidebar
       else
         hide_sidebar
       end
+    end
+
+    def sidebar_visible?
+      self.currentTopViewPosition == 1
     end
 
     def menu_controller=(c)
@@ -38,6 +42,7 @@ module PrimeSlidingMenu
         self.topViewController = @content_controller_ref
         @content_controller_ref.view.addGestureRecognizer self.panGesture
         @content_controller_ref.view.addGestureRecognizer self.resetTapGesture
+        self.resetTapGesture.delegate = self
       else
         content_controller.viewControllers = [@content_controller_ref]
       end
@@ -50,6 +55,10 @@ module PrimeSlidingMenu
 
     def content_controller
       self.topViewController
+    end
+
+    def gestureRecognizer(gestureRecognizer, shouldReceiveTouch: touch)
+      sidebar_visible?
     end
 
     private
