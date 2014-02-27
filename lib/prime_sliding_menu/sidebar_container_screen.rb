@@ -43,6 +43,7 @@ module PrimeSlidingMenu
         @content_controller_ref.view.addGestureRecognizer self.panGesture
         @content_controller_ref.view.addGestureRecognizer self.resetTapGesture
         self.resetTapGesture.delegate = self
+        self.panGesture.delegate = self
       else
         content_controller.viewControllers = [@content_controller_ref]
       end
@@ -57,8 +58,17 @@ module PrimeSlidingMenu
       self.topViewController
     end
 
+
     def gestureRecognizer(gestureRecognizer, shouldReceiveTouch: touch)
-      sidebar_visible?
+      if gestureRecognizer.is_a?(UITapGestureRecognizer)
+        sidebar_visible?
+      else
+        allow_sidebar?(touch)
+      end
+    end
+
+    def allow_sidebar?(touch)
+      true
     end
 
     private
